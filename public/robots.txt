@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://codinganarchy.pages.dev/sitemap-index.xml

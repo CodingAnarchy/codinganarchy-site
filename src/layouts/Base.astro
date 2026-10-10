@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+import { SITE_TITLE, SITE_DESCRIPTION, GITHUB_URL } from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = SITE_DESCRIPTION } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/projects/', label: 'Projects' },
+  { href: '/blog/', label: 'Blog' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={new URL('rss.xml', Astro.site)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="color-scheme" content="light dark" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="/">{SITE_TITLE}</a>
+      <nav>
+        {nav.map(({ href, label }) => (
+          <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}</a>
+        ))}
+        <a href={GITHUB_URL}>GitHub</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <a href="/rss.xml">RSS</a>
+      <span>·</span>
+      <a href={GITHUB_URL}>github.com/CodingAnarchy</a>
+    </footer>
+  </body>
+</html>

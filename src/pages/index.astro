@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostList from '../components/PostList.astro';
+import { getPosts, getProjects } from '../lib/content';
+
+const projects = await getProjects();
+const posts = (await getPosts()).slice(0, 5);
+---
+
+<Base>
+  <section class="intro">
+    <h1>CodingAnarchy</h1>
+    <p>
+      Open-source projects, mostly in Rust: storage engines, job queues, and bridges between
+      languages. This is where they live, along with release notes and longer write-ups.
+    </p>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    <div class="cards">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <section>
+    <h2>Recent writing</h2>
+    <PostList posts={posts} />
+    {posts.length > 0 && <p><a href="/blog/">All posts →</a></p>}
+  </section>
+</Base>

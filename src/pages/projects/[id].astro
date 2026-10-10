@@ -1,0 +1,43 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts, getProjects } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { name, tagline, language, status, repo, links } = project.data;
+const { Content } = await render(project);
+const posts = (await getPosts()).filter((post) => post.data.project?.id === project.id);
+---
+
+<Base title={name} description={tagline}>
+  <article>
+    <header class="page-header">
+      <h1>{name}</h1>
+      <p class="lede">{tagline}</p>
+      <div class="meta">
+        <span>{language}</span>
+        <span class:list={['status', status]}>{status}</span>
+      </div>
+      <p class="links">
+        <a href={repo}>Source</a>
+        {links.map(({ label, url }) => <a href={url}>{label}</a>)}
+      </p>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+
+  {posts.length > 0 && (
+    <section>
+      <h2>Posts about {name}</h2>
+      <PostList posts={posts} />
+    </section>
+  )}
+</Base>

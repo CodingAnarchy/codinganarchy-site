@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { name, tagline, language, status } = project.data;
+---
+
+<a class="card" href={`/projects/${project.id}/`}>
+  <h3>{name}</h3>
+  <p>{tagline}</p>
+  <div class="meta">
+    <span>{language}</span>
+    <span class:list={['status', status]}>{status}</span>
+  </div>
+</a>
