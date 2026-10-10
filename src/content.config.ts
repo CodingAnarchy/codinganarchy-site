@@ -1,6 +1,7 @@
 import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { localMidnightIfDateOnly } from './lib/dates';
 
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
@@ -21,8 +22,8 @@ const posts = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    date: z.coerce.date(),
-    updated: z.coerce.date().optional(),
+    date: z.coerce.date().transform(localMidnightIfDateOnly),
+    updated: z.coerce.date().transform(localMidnightIfDateOnly).optional(),
     tags: z.array(z.string()).default([]),
     project: reference('projects').optional(),
     draft: z.boolean().default(false),

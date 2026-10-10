@@ -1,7 +1,7 @@
 ---
 title: "cargo-quota: a disk budget for target/"
 description: Coding agents rebuild Rust projects all day, and target/ never shrinks. cargo-quota prunes it to a budget before every build.
-date: 2026-10-10
+date: 2026-10-10T18:57:49-04:00
 tags: [rust, cargo, release]
 project: cargo-quota
 ---

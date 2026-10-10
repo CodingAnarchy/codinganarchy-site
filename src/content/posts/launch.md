@@ -1,7 +1,7 @@
 ---
 title: codinganarchy.dev is live
 description: A home for my open-source projects, plus release notes and write-ups.
-date: 2026-10-10
+date: 2026-10-10T18:28:12-04:00
 tags: [meta]
 ---
 

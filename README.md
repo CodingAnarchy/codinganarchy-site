@@ -10,7 +10,7 @@ Projects and writing from [CodingAnarchy](https://github.com/CodingAnarchy), bui
 ---
 title: Pigeonhole 0.3
 description: One sentence for the post list, RSS, and link previews.
-date: 2026-11-01
+date: 2026-11-01T09:30:00-04:00   # a bare date (2026-11-01) also works; it sorts as midnight Eastern
 tags: [release]
 project: pigeonhole   # optional: lists the post on that project's page
 draft: true           # optional: visible in `npm run dev`, left out of builds
