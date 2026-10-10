@@ -4,7 +4,6 @@ description: Coding agents rebuild Rust projects all day, and target/ never shri
 date: 2026-10-10
 tags: [rust, cargo, release]
 project: cargo-quota
-draft: true
 ---
 
 I kept running out of disk space on my laptop, and it was always the same cause: Rust target directories.
