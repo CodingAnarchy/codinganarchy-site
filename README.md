@@ -1,6 +1,6 @@
 # codinganarchy-site
 
-Projects and writing from [CodingAnarchy](https://github.com/CodingAnarchy), built with [Astro](https://astro.build) and served by Cloudflare Pages.
+Projects and writing from [CodingAnarchy](https://github.com/CodingAnarchy), built with [Astro](https://astro.build) and served by Cloudflare Workers.
 
 ## Writing
 
@@ -34,15 +34,16 @@ Requires Node 22.12 or newer.
 
 ## Deploying
 
-Cloudflare Pages builds from `main`. To connect it: Workers & Pages → Create → Pages → Connect to Git → `CodingAnarchy/codinganarchy-site`, with
+The site deploys as a static-assets Cloudflare Worker named `codinganarchy-site`. `wrangler.jsonc` points it at `dist/` and serves `404.html` for unknown paths; `public/_headers` sets response headers.
 
-- Framework preset: Astro
+To connect it: Workers & Pages → Create → Import a repository → `CodingAnarchy/codinganarchy-site`, with
+
 - Build command: `npm run build`
-- Build output directory: `dist`
+- Deploy command: `npx wrangler deploy`
 - Environment variable: `NODE_VERSION=22`
 
-Every push to `main` deploys; pull requests get preview URLs.
+Every push to `main` deploys. To deploy by hand: `npm run build && npx wrangler deploy`.
 
 ### Custom domain
 
-After attaching a domain under the Pages project's Custom domains tab, update `site` in `astro.config.mjs` and the `Sitemap:` line in `public/robots.txt`. RSS, canonical links, and the sitemap all derive from those.
+The site is served at [codinganarchy.dev](https://codinganarchy.dev), attached under the Worker's Settings → Domains & Routes. `site` in `astro.config.mjs` and the `Sitemap:` line in `public/robots.txt` must match it; RSS, canonical links, and the sitemap all derive from those. The `workers.dev` URL keeps working, and canonical links point search engines at the custom domain.
