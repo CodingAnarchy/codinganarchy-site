@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // Change `site` when a custom domain is attached; RSS and canonical URLs use it.
 export default defineConfig({
-  site: 'https://codinganarchy.pages.dev',
+  site: 'https://codinganarchy.dev',
   integrations: [sitemap()],
   markdown: {
     shikiConfig: {
