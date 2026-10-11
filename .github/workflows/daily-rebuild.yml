@@ -1,0 +1,26 @@
+# Rebuilds the site once a day so project versions fetched from crates.io and
+# RubyGems stay current between pushes. The Deploy Hook URL comes from the
+# Worker's Settings > Builds > Deploy Hooks and is stored as a repository secret,
+# since anyone holding it can trigger builds.
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: "0 10 * * *" # 10:00 UTC, early morning Eastern
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the Workers Build
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "::error::The DEPLOY_HOOK_URL secret isn't set."
+            exit 1
+          fi
+          curl --fail-with-body --silent --show-error --max-time 30 -X POST "$DEPLOY_HOOK_URL"
