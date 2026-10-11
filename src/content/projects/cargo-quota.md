@@ -7,6 +7,9 @@ repo: https://github.com/CodingAnarchy/cargo-quota
 links:
   - label: crates.io
     url: https://crates.io/crates/cargo-quota
+package:
+  registry: crates
+  name: cargo-quota
 order: 40
 ---
 

@@ -7,6 +7,9 @@ repo: https://github.com/CodingAnarchy/tonic-rails
 links:
   - label: RubyGems
     url: https://rubygems.org/gems/tonic-rails
+package:
+  registry: rubygems
+  name: tonic-rails
 order: 30
 ---
 

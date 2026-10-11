@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PostList from '../../components/PostList.astro';
 import { getPosts, getProjects } from '../../lib/content';
+import { getLatestVersion } from '../../lib/versions';
 
 export async function getStaticPaths() {
   const projects = await getProjects();
@@ -12,6 +13,7 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { name, tagline, language, status, repo, links } = project.data;
 const { Content } = await render(project);
+const version = await getLatestVersion(project.data.package);
 const posts = (await getPosts()).filter((post) => post.data.project?.id === project.id);
 ---
 
@@ -22,6 +24,7 @@ const posts = (await getPosts()).filter((post) => post.data.project?.id === proj
       <p class="lede">{tagline}</p>
       <div class="meta">
         <span>{language}</span>
+        {version && <span class="version">v{version}</span>}
         <span class:list={['status', status]}>{status}</span>
       </div>
       <p class="links">

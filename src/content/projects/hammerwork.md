@@ -9,6 +9,9 @@ links:
     url: https://crates.io/crates/hammerwork
   - label: docs.rs
     url: https://docs.rs/hammerwork
+package:
+  registry: crates
+  name: hammerwork
 order: 10
 ---
 

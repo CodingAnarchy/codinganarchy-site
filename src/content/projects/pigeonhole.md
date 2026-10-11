@@ -9,6 +9,9 @@ links:
     url: https://crates.io/crates/pigeonhole
   - label: docs.rs
     url: https://docs.rs/pigeonhole
+package:
+  registry: crates
+  name: pigeonhole
 order: 20
 ---
 

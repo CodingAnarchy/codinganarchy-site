@@ -12,6 +12,8 @@ const projects = defineCollection({
     status: z.enum(['active', 'experimental', 'stable', 'archived']),
     repo: z.url(),
     links: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
+    // Published package; its latest version is fetched from the registry at build time.
+    package: z.object({ registry: z.enum(['crates', 'rubygems']), name: z.string() }).optional(),
     // Lower numbers sort first on the home and projects pages.
     order: z.number().default(100),
   }),
