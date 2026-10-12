@@ -1,6 +1,6 @@
 ---
 title: "Hammerwork 3.0, and the four days of hardening behind it"
-description: Hammerwork's feature list had gotten ahead of its code. 2.0 through 3.0 is the work of making every line of that list true, done with a fleet of coding agents.
+description: Agents wrote most of Hammerwork in 2025, and its feature list got ahead of its code. With Opus 5.5, 2.0 through 3.0 made that list true.
 date: 2026-10-11T20:40:27-04:00
 tags: [rust, hammerwork, release]
 project: hammerwork
@@ -9,13 +9,15 @@ draft: true
 
 [Hammerwork](/projects/hammerwork/) 3.0.0 is out. It's a Rust job queue that keeps its jobs in PostgreSQL or MySQL, and by 1.15 it had a long feature list: workflows, cron, payload encryption, event streaming, webhooks, alerting, autoscaling, a dashboard, and a CLI.
 
-When I came back to it this month, I wanted to know how much of that list was true. Not "does it compile" or "do the unit tests pass", but: run it against real databases with concurrent workers, and see what holds.
+Most of that was written by coding agents in 2025. That's how the list got so long so fast, and it's also why I wasn't sure how much of it to trust. The library compiled and the README described every feature, but the evidence underneath was thin. GitHub had disabled the integration test workflow for inactivity, and its last runs had all failed. Nine integration test files no longer compiled, 20 library tests failed, and the MySQL migrations didn't run on MySQL 8, so the MySQL backend couldn't even be set up.
+
+The agents have changed a lot since then. With Opus 5.5, I came back to Hammerwork this month to make it actually work: run it against real databases with concurrent workers, and see what holds.
 
 A lot didn't. 2.0 through 3.0 is the work of fixing that: 88 merged pull requests and 45 closed issues between October 8 and October 11.
 
 ## How the work was done
 
-I ran it with a fleet of coding agents in [Herdr](https://github.com/ogulcancelik/herdr), a terminal workspace that keeps many agent sessions running side by side and shows which ones are working, blocked, or done. Herdr isn't what made the agents useful. It made it practical to run many of them at once and keep up with them.
+I ran it with a fleet of Opus 5.5 agents in [Herdr](https://github.com/ogulcancelik/herdr), a terminal workspace that keeps many agent sessions running side by side and shows which ones are working, blocked, or done. Herdr isn't what made the agents useful. It made it practical to run many of them at once and keep up with them.
 
 The structure mattered more than the tooling:
 
@@ -35,7 +37,7 @@ The worst bugs were in the core lifecycle:
 - **Retries ignored the job's own limit.** A job with `max_attempts = 5` stopped after 3 runs, and `max_attempts = 1` still ran 3 times.
 - **Finished jobs could come back.** Status updates had no guard on the current status, so a `Dead` job could be put back to `Pending` and a late worker could overwrite a job the reaper had already reclaimed.
 
-Then there was a category I find more uncomfortable: features that reported success without doing anything.
+Then there was the category that says the most about how 1.x was built: features that reported success without doing anything. Each one looked finished from the outside, and some updated their statistics as if they had worked.
 
 - **Event streams never sent anything.** The stream manager prepared each batch, hit a `// For now, simulate successful processing` comment, and recorded it as delivered. Kafka, Kinesis, and Pub/Sub dropped every event while their stats said everything was fine.
 - **"Encrypted" payloads were stored in plaintext.** `Job::with_encryption` was saved on the job and ignored.
