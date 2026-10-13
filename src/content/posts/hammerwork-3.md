@@ -4,14 +4,14 @@ description: Agents wrote most of Hammerwork in 2025, and its feature list got a
 date: 2026-10-11T20:40:27-04:00
 tags: [rust, hammerwork, release]
 project: hammerwork
-draft: true
+draft: false
 ---
 
 [Hammerwork](/projects/hammerwork/) 3.0.0 is out. It's a Rust job queue that keeps its jobs in PostgreSQL or MySQL, and by 1.15 it had a long feature list: workflows, cron, payload encryption, event streaming, webhooks, alerting, autoscaling, a dashboard, and a CLI.
 
 Most of that was written by coding agents in 2025. That's how the list got so long so fast, and it's also why I wasn't sure how much of it to trust. The library compiled and the README described every feature, but the evidence underneath was thin. GitHub had disabled the integration test workflow for inactivity, and its last runs had all failed. Nine integration test files no longer compiled, 20 library tests failed, and the MySQL migrations didn't run on MySQL 8, so the MySQL backend couldn't even be set up.
 
-The agents have changed a lot since then. With Opus 5.5, I came back to Hammerwork this month to make it actually work: run it against real databases with concurrent workers, and see what holds.
+The agents have changed a lot since then. With Opus 5.5, I came back to Hammerwork this month to make it actually work: run it against real databases with concurrent workers, and see what holds up to scrutiny.
 
 A lot didn't. 2.0 through 3.0 is the work of fixing that: 88 merged pull requests and 45 closed issues between October 8 and October 11.
 
