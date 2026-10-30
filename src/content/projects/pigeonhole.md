@@ -2,7 +2,7 @@
 name: Pigeonhole
 tagline: An embedded, single-file, wide-column store. BigTable's data model with SQLite's deployment model.
 language: Rust
-status: experimental
+status: stable
 repo: https://github.com/CodingAnarchy/pigeonhole
 links:
   - label: crates.io
@@ -36,4 +36,4 @@ pages.mutate(b"com.example/a")
 
 Memtables flush into the file and compact, so data is bounded by disk rather than memory, and commits are crash-safe through a write-ahead log. A clean close leaves a single file.
 
-> Pigeonhole is experimental 0.x. The on-disk format and API may change before 1.0, and it isn't recommended for production yet. The current focus is latency: io_uring, direct I/O, and an async API.
+> Pigeonhole 1.0 is stable. The public API follows semver, and every 1.x release reads and writes file format 4. Known gaps are listed in [`docs/status.md`](https://github.com/CodingAnarchy/pigeonhole/blob/main/docs/status.md). Read the [1.0 announcement](/blog/pigeonhole-1/).
